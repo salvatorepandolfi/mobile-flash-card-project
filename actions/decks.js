@@ -1,31 +1,39 @@
+import {
+    getDecksFromStorage,
+    addCardToDeckToStorage,
+    removeCardFromDeckToStorage,
+    removeDeckFromStorage,
+    saveDeckTitleToStorage
+} from "../utils";
+
 export const RECEIVE_DECKS = 'RECEIVE_DECKS'
 export const CREATE_DECK = 'CREATE_DECK'
 export const DELETE_DECK = 'DELETE_DECK'
 export const ADD_QUESTION = 'ADD_QUESTION'
 export const REMOVE_QUESTION = 'REMOVE_QUESTION'
 
-export function receiveDecks(decks) {
+function receiveDecks(decks) {
     return {
         type: RECEIVE_DECKS,
         decks
     }
 }
 
-export function createDeck(title) {
+function createDeck(title) {
     return {
         type: CREATE_DECK,
         title
     }
 }
 
-export function deleteDeck(title) {
+function deleteDeck(title) {
     return {
         type: DELETE_DECK,
         title
     }
 }
 
-export function addQuestion({title, question, answer}) {
+function addQuestion({title, question, answer}) {
     return {
         type: ADD_QUESTION,
         title,
@@ -34,10 +42,52 @@ export function addQuestion({title, question, answer}) {
     }
 }
 
-export function removeQuestion({title, question}) {
+function removeQuestion({title, question}) {
     return {
         type: ADD_QUESTION,
         title,
         question
     }
 }
+
+export function handleGetDecks() {
+    return (dispatch) => {
+        getDecksFromStorage()
+            .then(decks => {
+                decks !== null
+                    ? dispatch(receiveDecks(JSON.parse(decks)))
+                    : dispatch(receiveDecks({}))
+            })
+
+    }
+}
+
+export function handleCreateDeck(title) {
+    return (dispatch) => {
+        saveDeckTitleToStorage(title)
+            .then(() => dispatch(createDeck(title)))
+    }
+}
+
+export function handleDeleteDeck(title) {
+    return (dispatch) => {
+        removeDeckFromStorage(title)
+            .then(() => dispatch(deleteDeck(title)))
+    }
+}
+
+export function handleAddQuestion({title, question, answer}) {
+    return (dispatch) => {
+        addCardToDeckToStorage(title, {question, answer})
+            .then(() => dispatch(addQuestion({title, question, answer})))
+    }
+}
+
+export function handleRemoveQuestion({title, question}) {
+    return (dispatch) => {
+        removeCardFromDeckToStorage(title, {question, answer: ''})
+            .then(() => dispatch(removeQuestion({title, question})))
+    }
+}
+
+//TODO handle the catches, dispatching a message to the customer, even an alert could be fine
