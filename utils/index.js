@@ -8,7 +8,7 @@ export function getDecksFromStorage() {
 
 
 export function removeDeckFromStorage(id) {
-    return Promise((res, rej) => {
+    return new Promise((res, rej) => {
         AsyncStorage.getItem(STORAGE_KEY)
             .then((results) => {
                 const data = JSON.parse(results)
@@ -33,7 +33,7 @@ export function saveDeckTitleToStorage(title) {
 }
 
 export function addCardToDeckToStorage(title, card) {
-    return Promise((res, rej) => {
+    return new Promise((res, rej) => {
         AsyncStorage.getItem(STORAGE_KEY)
             .then((results) => {
                 const data = JSON.parse(results)
@@ -52,7 +52,7 @@ export function addCardToDeckToStorage(title, card) {
 
 
 export function removeCardFromDeckToStorage(title, card) {
-    return Promise((res, rej) => {
+    return new Promise((res, rej) => {
         AsyncStorage.getItem(STORAGE_KEY)
             .then((results) => {
                 const data = JSON.parse(results)
