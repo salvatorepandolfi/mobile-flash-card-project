@@ -2,6 +2,7 @@ import {ADD_QUESTION, CREATE_DECK} from "../actions/decks";
 import {Alert} from "react-native";
 
 const decks = (store) => (next) => (action) => {
+    //TODO to fix, a deck with the same title can be ingested
     const state = store.getState();
     if (action.type === CREATE_DECK && state[action.title]) {
         return Alert.alert('A deck with the same name already exits.')

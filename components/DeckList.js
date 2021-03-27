@@ -1,16 +1,68 @@
-import React, {Component} from "react";
-import {Text} from "react-native";
-import {connect} from "react-redux";
+import React, {Component} from "react"
+import {connect} from "react-redux"
+import {StyleSheet, ScrollView, View, Text, TouchableOpacity} from "react-native"
+import {MaterialCommunityIcons} from '@expo/vector-icons'
+
+
+const Deck = ({deck}) => {
+    return (
+        <TouchableOpacity onPress={() => console.log(`${deck.title} pressed`)}>
+            <View style={styles.deckContainer}>
+                <Text style={styles.deckTitle}>
+                    {deck.title}
+                </Text>
+                <Text style={styles.deckCardCounter}>
+                    {deck.questions.length} cards
+                </Text>
+            </View>
+        </TouchableOpacity>
+    )
+}
 
 
 class DeckList extends Component {
+    goToAdd = () => {
+        this.props.navigation.navigate(('New Deck'))
+    }
+
     render() {
+        //TODO add some nice styling
         const {decks} = this.props
-        return <Text>{JSON.stringify(decks)}</Text>
+        return decks.length > 0
+            ? (<ScrollView>
+                {decks.map((deck, key) => (<Deck deck={deck} key={key}/>))}
+            </ScrollView>)
+            : (<View style={styles.noDecks}>
+                <MaterialCommunityIcons name="alert-decagram" size={150} color="black"/>
+                <Text style={{fontSize: 25}}>No decks availalbe!</Text>
+                <TouchableOpacity style={{paddingTop: 5}} onPress={this.goToAdd}><Text> Add
+                    one. </Text></TouchableOpacity>
+            </View>)
     }
 }
 
+const styles = StyleSheet.create({
+    deckContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: 200,
+        borderBottomWidth: 1,
+        borderBottomColor: 'blue'
+    },
+    noDecks: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    deckTitle: {
+        fontSize: 50,
+        fontWeight: 'bold'
+    },
+    deckCardCounter: {}
+})
+
 const mapStateToProps = ({decks}) => {
-    return {decks}
+    return {decks: Object.values(decks)}
 }
 export default connect(mapStateToProps)(DeckList)

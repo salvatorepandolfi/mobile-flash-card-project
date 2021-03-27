@@ -1,12 +1,13 @@
 import React, {Component} from 'react'
 import {connect} from "react-redux"
-import {StyleSheet, Text} from "react-native"
+import {StyleSheet} from "react-native"
 import {StatusBar} from "expo-status-bar"
 import {SafeAreaView} from "react-native-safe-area-context"
 import {NavigationContainer} from '@react-navigation/native'
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs'
 import {handleGetDecks} from "../actions/decks"
-import DeckList from "./DeckList";
+import DeckList from "./DeckList"
+import NewDeck from "./NewDeck"
 
 
 const Tab = createMaterialTopTabNavigator()
@@ -14,6 +15,7 @@ const Tab = createMaterialTopTabNavigator()
 const TabNav = () => (
     <Tab.Navigator>
         <Tab.Screen name="Decks" component={DeckList}/>
+        <Tab.Screen name="New Deck" component={NewDeck}/>
     </Tab.Navigator>
 )
 
