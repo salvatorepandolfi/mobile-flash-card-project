@@ -62,10 +62,12 @@ export function handleGetDecks() {
     }
 }
 
-export function handleCreateDeck(title) {
+export function handleCreateDeck(title, callback = ()=>{}) {
     return (dispatch) => {
         saveDeckTitleToStorage(title)
             .then(() => dispatch(createDeck(title)))
+            .then(callback)
+            .catch(e=>{})
     }
 }
 

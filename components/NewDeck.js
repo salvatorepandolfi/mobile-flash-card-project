@@ -1,6 +1,6 @@
 import React, {Component} from "react"
 import {connect} from "react-redux"
-import {View, Text, TextInput, StyleSheet,Keyboard} from "react-native";
+import {View, Text, TextInput, StyleSheet, Keyboard} from "react-native";
 import StyledButton from "./StyledButton";
 import {handleCreateDeck} from "../actions/decks";
 
@@ -10,9 +10,7 @@ class NewDeck extends Component {
         if (title.trim() === '') {
             return this.setState({error: 'Insert a valid title'})
         }
-        Keyboard.dismiss()
-        this.props.addDeck(title)
-        this.setState({title: ''})
+        this.props.addDeck(title).then(() => this.setState({title: ''}))
     }
     onChange = (title) => {
         this.setState(() => ({title, error: ''}),
@@ -87,10 +85,16 @@ const styles = StyleSheet.create({
 const mapDispatchToProps = (dispatch, {navigation}) => {
     return {
         addDeck: (title) => {
-            dispatch(handleCreateDeck(title))
-            navigation.navigate('Decks')
+            return new Promise((res) => {
+                dispatch(handleCreateDeck(title, () => {
+                    Keyboard.dismiss()
+                    navigation.navigate('Decks')
+                    return res()
+                }))
+            })
         }
     }
 }
 export default connect(null, mapDispatchToProps)(NewDeck)
 //TODO add snackbar notification messages
+
