@@ -12,6 +12,7 @@ import NewDeck from "./NewDeck"
 import DeckView from "./DeckView";
 import AddCard from "./AddCard";
 import StartQuiz from "./StartQuiz";
+import Message from './Message'
 
 
 const Tab = createMaterialTopTabNavigator()
@@ -44,6 +45,7 @@ class Main extends Component {
             <SafeAreaView style={styles.container}>
                 <NavigationContainer>
                     <StackNav/>
+                    <Message/>
                     <StatusBar style="auto"/>
                 </NavigationContainer>
             </SafeAreaView>

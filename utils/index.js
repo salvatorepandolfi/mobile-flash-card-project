@@ -93,7 +93,7 @@ export function removeDeckFromStorage(id) {
             .then((results) => {
                 const data = JSON.parse(results)
                 data[id] = undefined
-                delete data[key]
+                delete data[id]
                 res(AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data)))
             })
             .catch(e => rej(e))

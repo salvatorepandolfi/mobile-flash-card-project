@@ -1,7 +1,9 @@
 import React, {Component} from "react"
-import {Text, View, StyleSheet} from 'react-native'
+import {Text, View, StyleSheet, Alert} from 'react-native'
 import {connect} from "react-redux"
-import StyledButton from "./StyledButton";
+import StyledButton from "./StyledButton"
+import {handleDeleteDeck} from "../actions/decks"
+import {showMessage} from "../actions/message"
 
 
 class DeckView extends Component {
@@ -9,9 +11,31 @@ class DeckView extends Component {
         this.setTitle(this.props.route.params.deckId);
     }
 
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        return nextProps.deck !== undefined
+    }
+
     setTitle = (deckId) => {
         if (!deckId) return;
         this.props.navigation.setOptions({title: deckId});
+    }
+
+    deleteDialog = () => {
+        Alert.alert(
+            "Attention!",
+            "Are you sure you want to delete this deck and all its cards?\n\nThe operation cannot be undone.",
+            [
+                {
+                    text: "Cancel",
+                    style: "cancel"
+                },
+                {
+                    text: "OK", onPress: () => {
+                        this.props.deleteDeck()
+                    }
+                }
+            ]
+        );
     }
 
     render() {
@@ -32,6 +56,7 @@ class DeckView extends Component {
                     {deck.questions.length >= 0
                     && <StyledButton onPress={() => navigation.navigate('Start Quiz', {deckId: deck.title})}>Start
                         Quiz</StyledButton>}
+                    <StyledButton onPress={() => this.deleteDialog()}>Delete Deck</StyledButton>
                 </View>
             </View>
         )
@@ -65,4 +90,17 @@ const mapStateToProps = ({decks}, {route}) => {
     const {deckId} = route.params
     return {deck: decks[deckId]}
 }
-export default connect(mapStateToProps)(DeckView)
+const mapDispatchToProps = (dispatch, {route, navigation}) => {
+    return {
+        deleteDeck: () => {
+            const {deckId} = route.params
+            return new Promise(res => {
+                dispatch(handleDeleteDeck(deckId, () => {
+                    navigation.navigate('Home')
+                    return res(dispatch(showMessage('Deck deleted')))
+                }))
+            })
+        }
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(DeckView)

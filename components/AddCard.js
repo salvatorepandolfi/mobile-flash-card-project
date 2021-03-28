@@ -1,9 +1,11 @@
 import React, {Component} from "react"
-import {Text, View} from 'react-native'
+import {Keyboard, Text, View, StyleSheet} from 'react-native'
 import {connect} from "react-redux"
-import StyledTextInput from "./StyledTextInput";
-import StyledButton from "./StyledButton";
-import {handleAddQuestion} from "../actions/decks";
+import StyledTextInput from "./StyledTextInput"
+import StyledButton from "./StyledButton"
+import {handleAddQuestion} from "../actions/decks"
+import {showMessage} from "../actions/message"
+
 
 class AddCard extends Component {
     componentDidMount() {
@@ -79,39 +81,47 @@ class AddCard extends Component {
             answer: ''
         }
     }
+    inputOption = {
+        maxLength: 150,
+        multiline: true,
+        numberOfLines: 4
+    }
 
     render() {
         const {question, answer, errors} = this.state
-        console.log(this.state)
         return (
-            <View>
+            <View style={styles.container}>
+                <Text style={styles.title}>Insert a question and its answer:</Text>
                 <StyledTextInput
                     value={question}
                     error={errors.question}
                     onChange={this.onChangeQuestion}
                     placeholder='Question...'
-                    options={{
-                        maxLength: 150,
-                        multiline: true,
-                        numberOfLines: 4
-                    }}
+                    options={this.inputOption}
                 />
                 <StyledTextInput
                     value={answer}
                     error={errors.answer}
                     onChange={this.onChangeAnswer}
                     placeholder='Answer...'
-                    options={{
-                        maxLength: 150,
-                        multiline: true,
-                        numberOfLines: 4
-                    }}
+                    options={this.inputOption}
                 />
                 <StyledButton onPress={this.submit}>Submit</StyledButton>
             </View>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'space-evenly',
+        padding: 20
+    },
+    title:{
+        fontSize: 30
+    }
+})
 
 const mapStateToProps = ({decks}, {route}) => {
     return {
@@ -122,11 +132,17 @@ const mapDispatchToProps = (dispatch, {navigation, route}) => {
     return {
         addQuestion: (question, answer) => {
             const {deckId} = route.params
-            return dispatch(handleAddQuestion({
-                title: deckId,
-                question,
-                answer
-            }))
+            return new Promise(res => {
+                dispatch(handleAddQuestion({
+                    title: deckId,
+                    question,
+                    answer
+                }, () => {
+                    Keyboard.dismiss()
+                    navigation.navigate('Deck View', {deckId})
+                    return res(dispatch(showMessage('Card added to the deck')))
+                }))
+            })
         }
     }
 }

@@ -4,6 +4,7 @@ import {View, Text, TextInput, StyleSheet, Keyboard} from "react-native"
 import StyledButton from "./StyledButton"
 import StyledTextInput from './StyledTextInput'
 import {handleCreateDeck} from "../actions/decks"
+import {showMessage} from "../actions/message"
 
 class NewDeck extends Component {
     addNewDeck = () => {
@@ -65,6 +66,7 @@ const mapDispatchToProps = (dispatch, {navigation}) => {
                 dispatch(handleCreateDeck(title, () => {
                     Keyboard.dismiss()
                     navigation.navigate('Decks')
+                    dispatch(showMessage('New deck created'))
                     return res()
                 }))
             })
@@ -72,5 +74,4 @@ const mapDispatchToProps = (dispatch, {navigation}) => {
     }
 }
 export default connect(null, mapDispatchToProps)(NewDeck)
-//TODO add snackbar notification messages
 

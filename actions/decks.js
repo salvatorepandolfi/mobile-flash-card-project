@@ -71,17 +71,21 @@ export function handleCreateDeck(title, callback = ()=>{}) {
     }
 }
 
-export function handleDeleteDeck(title) {
+export function handleDeleteDeck(title, callback = ()=>{}) {
     return (dispatch) => {
         removeDeckFromStorage(title)
             .then(() => dispatch(deleteDeck(title)))
+            .then(callback)
+            .catch(e=>{})
     }
 }
 
-export function handleAddQuestion({title, question, answer}) {
+export function handleAddQuestion({title, question, answer},callback = ()=>{}) {
     return (dispatch) => {
         addCardToDeckToStorage(title, {question, answer})
             .then(() => dispatch(addQuestion({title, question, answer})))
+            .then(callback)
+            .catch(e=>{})
     }
 }
 
