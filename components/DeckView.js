@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
         fontSize: 20
     }
 })
+//TODO add a remove deck action with an alert dialog to confirm action
 const mapStateToProps = ({decks}, {route}) => {
     const {deckId} = route.params
     return {deck: decks[deckId]}

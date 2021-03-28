@@ -1,8 +1,9 @@
 import React, {Component} from "react"
 import {connect} from "react-redux"
-import {View, Text, TextInput, StyleSheet, Keyboard} from "react-native";
-import StyledButton from "./StyledButton";
-import {handleCreateDeck} from "../actions/decks";
+import {View, Text, TextInput, StyleSheet, Keyboard} from "react-native"
+import StyledButton from "./StyledButton"
+import StyledTextInput from './StyledTextInput'
+import {handleCreateDeck} from "../actions/decks"
 
 class NewDeck extends Component {
     addNewDeck = () => {
@@ -31,20 +32,13 @@ class NewDeck extends Component {
         return (
             <View style={styles.container}>
                 <Text style={styles.header}>What is the title of the new deck?</Text>
-
-                <View style={styles.inputContainer}>
-                    <View style={{flexDirection: 'row'}}>
-                        <TextInput
-                            style={styles.titleInput}
-                            placeholder="Deck Title"
-                            onChangeText={this.onChange}
-                            value={title}
-                            maxLength={50}
-                        />
-                    </View>
-                    <Text style={styles.error}>{error}</Text>
-                </View>
-
+                <StyledTextInput
+                    value={title}
+                    error={error}
+                    onChange={this.onChange}
+                    placeholder='Deck Title'
+                    options={{maxLength:50}}
+                />
                 <StyledButton onPress={this.addNewDeck}>SUBMIT</StyledButton>
             </View>
         )
@@ -57,28 +51,10 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
         alignItems: 'center'
     },
-    inputContainer: {
-        width: '100%',
-        alignItems: 'center'
-    },
     header: {
         fontSize: 45,
         alignSelf: 'center',
         textAlign: 'center',
-    },
-    titleInput: {
-        flex: 1,
-        marginRight: 20,
-        marginLeft: 20,
-        paddingLeft: 10,
-        paddingRight: 10,
-        fontSize: 25,
-        height: 60,
-        borderWidth: 1,
-        borderRadius: 5,
-    },
-    error: {
-        color: '#ed4337',
     }
 })
 
