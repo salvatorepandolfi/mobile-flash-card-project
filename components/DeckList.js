@@ -4,9 +4,9 @@ import {StyleSheet, ScrollView, View, Text, TouchableOpacity} from "react-native
 import {MaterialCommunityIcons} from '@expo/vector-icons'
 
 
-const Deck = ({deck}) => {
+const Deck = ({deck, goToDeck}) => {
     return (
-        <TouchableOpacity onPress={() => console.log(`${deck.title} pressed`)}>
+        <TouchableOpacity onPress={() => goToDeck(deck.title)}>
             <View style={styles.deckContainer}>
                 <Text style={styles.deckTitle}>
                     {deck.title}
@@ -21,8 +21,12 @@ const Deck = ({deck}) => {
 
 
 class DeckList extends Component {
+    goToDeck = (deckId) => {
+        this.props.navigation.navigate('Deck View',
+            {deckId})
+    }
     goToAdd = () => {
-        this.props.navigation.navigate(('New Deck'))
+        this.props.navigation.navigate('New Deck')
     }
 
     render() {
@@ -30,7 +34,7 @@ class DeckList extends Component {
         const {decks} = this.props
         return decks.length > 0
             ? (<ScrollView>
-                {decks.map((deck, key) => (<Deck deck={deck} key={key}/>))}
+                {decks.map((deck, key) => (<Deck deck={deck} goToDeck={this.goToDeck} key={key}/>))}
             </ScrollView>)
             : (<View style={styles.noDecks}>
                 <MaterialCommunityIcons name="alert-decagram" size={150} color="black"/>
