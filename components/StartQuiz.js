@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import StyledButton from "./StyledButton";
 import Card from "./Card";
 import Result from "./Result.";
+import {clearLocalNotification} from "../utils";
 
 class StartQuiz extends Component {
     state = {
@@ -14,6 +15,7 @@ class StartQuiz extends Component {
     }
 
     componentDidMount() {
+        clearLocalNotification()
         this.setTitle(this.props.route.params.deckId + " quiz");
     }
 
