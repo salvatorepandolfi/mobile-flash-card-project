@@ -1,15 +1,18 @@
 {
   "name": "mobile-flash-card-project",
-  "displayName": "mobile-flash-card-project",
+  "displayName": "Mobile Flash Card",
   "expo": {
-    "name": "mobile-flash-card-project",
+    "sdkVersion": "40.0.0",
+    "name": "Mobile Flash Card",
+    "description": "A Mobile Flash Card Application, for accademic purpose ;-)",
     "slug": "mobile-flash-card-project",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
     ],
     "android": {
-      "useNextNotificationsApi": true
+      "useNextNotificationsApi": true,
+      "package": "org.pandolfiflash.exp"
     }
   }
 }
