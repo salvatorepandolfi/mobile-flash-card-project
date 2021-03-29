@@ -54,7 +54,7 @@ class DeckView extends Component {
                     <StyledButton style={styles.button}
                                   onPress={() => navigation.navigate('Add Card', {deckId: deck.title})}>Add
                         Card</StyledButton>
-                    {deck.questions.length >= 0
+                    {deck.questions.length > 0
                     && <StyledButton style={styles.button}
                                      onPress={() => navigation.navigate('Start Quiz', {deckId: deck.title})}>Start
                         Quiz</StyledButton>}

@@ -38,7 +38,7 @@ class NewDeck extends Component {
                     error={error}
                     onChange={this.onChange}
                     placeholder='Deck Title'
-                    options={{maxLength:50}}
+                    options={{maxLength: 50}}
                 />
                 <StyledButton onPress={this.addNewDeck}>SUBMIT</StyledButton>
             </View>
@@ -64,8 +64,8 @@ const mapDispatchToProps = (dispatch, {navigation}) => {
         addDeck: (title) => {
             return new Promise((res) => {
                 dispatch(handleCreateDeck(title, () => {
+                    navigation.navigate('Deck View', {deckId: title})
                     Keyboard.dismiss()
-                    navigation.navigate('Decks')
                     dispatch(showMessage('New deck created'))
                     return res()
                 }))
