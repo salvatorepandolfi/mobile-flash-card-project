@@ -13,6 +13,7 @@ import DeckView from "./DeckView";
 import AddCard from "./AddCard";
 import StartQuiz from "./StartQuiz";
 import Message from './Message'
+import {setLocalNotification} from "../utils";
 
 
 const Tab = createMaterialTopTabNavigator()
@@ -38,6 +39,7 @@ class Main extends Component {
     componentDidMount() {
         const {dispatch} = this.props
         dispatch(handleGetDecks())
+        setLocalNotification()
     }
 
     render() {

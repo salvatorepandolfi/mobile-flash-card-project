@@ -3,7 +3,8 @@ import {createStore} from "redux";
 import reducers from './reducers'
 import middleware from './middleware'
 import {Provider} from "react-redux"
-import Main from "./components/Main";
+import Main from "./components/Main"
+
 
 
 export default class App extends Component {

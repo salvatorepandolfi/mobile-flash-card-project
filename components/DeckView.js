@@ -51,12 +51,14 @@ class DeckView extends Component {
                     </Text>
                 </View>
                 <View style={styles.actions}>
-                    <StyledButton onPress={() => navigation.navigate('Add Card', {deckId: deck.title})}>Add
+                    <StyledButton style={styles.button}
+                                  onPress={() => navigation.navigate('Add Card', {deckId: deck.title})}>Add
                         Card</StyledButton>
                     {deck.questions.length >= 0
-                    && <StyledButton onPress={() => navigation.navigate('Start Quiz', {deckId: deck.title})}>Start
+                    && <StyledButton style={styles.button}
+                                     onPress={() => navigation.navigate('Start Quiz', {deckId: deck.title})}>Start
                         Quiz</StyledButton>}
-                    <StyledButton onPress={() => this.deleteDialog()}>Delete Deck</StyledButton>
+                    <StyledButton style={styles.button} onPress={() => this.deleteDialog()}>Delete Deck</StyledButton>
                 </View>
             </View>
         )
@@ -66,7 +68,7 @@ class DeckView extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-
+        padding: 20
     },
     details: {
         flex: 3,
@@ -76,7 +78,11 @@ const styles = StyleSheet.create({
     actions: {
         flex: 1,
         justifyContent: 'space-around',
-        alignItems: 'center'
+        alignItems: 'center',
+
+    },
+    button: {
+        alignSelf: 'stretch'
     },
     title: {
         fontSize: 70
@@ -85,7 +91,7 @@ const styles = StyleSheet.create({
         fontSize: 20
     }
 })
-//TODO add a remove deck action with an alert dialog to confirm action
+
 const mapStateToProps = ({decks}, {route}) => {
     const {deckId} = route.params
     return {deck: decks[deckId]}

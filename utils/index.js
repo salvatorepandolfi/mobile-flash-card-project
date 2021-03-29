@@ -1,6 +1,8 @@
 import {AsyncStorage} from 'react-native'
+import * as Notifications from 'expo-notifications'
 
 const STORAGE_KEY = 'FlashCard:decks'
+const NOTIFICATION_KEY = 'FlashCard:localNotifications'
 
 export function resetStorage() {
     const decks = {
@@ -149,3 +151,55 @@ export function removeCardFromDeckToStorage(title, card) {
     })
 }
 
+
+export function clearLocalNotification() {
+    return AsyncStorage.removeItem(NOTIFICATION_KEY)
+        .then(Notifications.cancelAllScheduledNotificationsAsync)
+}
+
+export function setLocalNotification() {
+    AsyncStorage.getItem(NOTIFICATION_KEY)
+        .then(JSON.parse)
+        .then((data) => {
+            if (data === null) {
+                Notifications.getPermissionsAsync()
+                    .then(({status}) => {
+                        if (status !== 'granted') {
+                            Notifications.requestPermissionsAsync()
+                                .then(({status}) => {
+                                    if (status === 'granted') {
+                                        return this.setLocalNotification()
+                                    }
+                                })
+                        }
+                        if (status === 'granted') {
+                            Notifications.cancelAllScheduledNotificationsAsync()
+                                .then(() => {
+                                    let tomorrow = new Date()
+                                    tomorrow.setDate(tomorrow.getDate() + 1)
+                                    tomorrow.setHours(8)
+                                    tomorrow.setMinutes(0)
+
+                                    //because expo doesn't support calendar notification on Android
+                                    //I have to specify a diff in seconds to trigger my notification
+                                    let diff = tomorrow - new Date()
+
+                                    Notifications.scheduleNotificationAsync(
+                                        {
+                                            content: {
+                                                title: "Learn today!",
+                                                body: "Don't forget to shuffle your decks today!"
+                                            },
+                                            trigger: {
+                                                seconds: diff / 1000
+                                            },
+                                        },
+                                    )
+
+                                    AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true))
+                                })
+                        }
+                    })
+            }
+        })
+}

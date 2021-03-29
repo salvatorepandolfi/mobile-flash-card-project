@@ -20,7 +20,7 @@ export default function SyledTextInput({value, placeholder, onChange, error, opt
 
 const styles = StyleSheet.create({
     inputContainer: {
-        width: '100%',
+        alignSelf: 'stretch',
         alignItems: 'center'
     },
     titleInput: {
