@@ -1,22 +1,38 @@
 import React, {Component} from "react"
 import {connect} from "react-redux"
-import {StyleSheet, ScrollView, View, Text, TouchableOpacity} from "react-native"
+import {StyleSheet, ScrollView, View, Text, TouchableOpacity, Animated} from "react-native"
 import {MaterialCommunityIcons} from '@expo/vector-icons'
 
 
-const Deck = ({deck, goToDeck}) => {
-    return (
-        <TouchableOpacity onPress={() => goToDeck(deck.title)}>
-            <View style={styles.deckContainer}>
-                <Text style={styles.deckTitle}>
-                    {deck.title}
-                </Text>
-                <Text style={styles.deckCardCounter}>
-                    {deck.questions.length} cards
-                </Text>
-            </View>
-        </TouchableOpacity>
-    )
+class Deck extends Component {
+    state = {animationValue: new Animated.Value(1)}
+
+    go = () => {
+        const {deck, goToDeck} = this.props
+        const {animationValue} = this.state
+        Animated.sequence([
+            Animated.timing(animationValue, {duration: 200, toValue: 100, useNativeDriver: true}),
+            Animated.timing(animationValue, {toValue: 1, duration: 50, useNativeDriver: true})
+        ]).start()
+        goToDeck(deck.title)
+    }
+
+    render() {
+        const {deck} = this.props
+        const {animationValue} = this.state
+        return (
+            <TouchableOpacity onPress={this.go}>
+                <Animated.View style={[styles.deckContainer, {transform: [{scale: animationValue}]}]}>
+                    <Text style={styles.deckTitle}>
+                        {deck.title}
+                    </Text>
+                    <Text style={styles.deckCardCounter}>
+                        {deck.questions.length} cards
+                    </Text>
+                </Animated.View>
+            </TouchableOpacity>
+        )
+    }
 }
 
 
@@ -30,7 +46,6 @@ class DeckList extends Component {
     }
 
     render() {
-        //TODO add some nice styling
         const {decks} = this.props
         return decks.length > 0
             ? (<ScrollView>

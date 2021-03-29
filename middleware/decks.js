@@ -2,7 +2,6 @@ import {ADD_QUESTION, CREATE_DECK} from "../actions/decks";
 import {Alert} from "react-native";
 
 const decks = (store) => (next) => (action) => {
-    //TODO change alert message
     const state = store.getState();
     if (action.type === CREATE_DECK && state.decks[action.title]) {
         Alert.alert("Warning", 'A deck with the same name already exits.')

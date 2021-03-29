@@ -95,5 +95,3 @@ export function handleRemoveQuestion({title, question}) {
             .then(() => dispatch(removeQuestion({title, question})))
     }
 }
-
-//TODO handle the catches, dispatching a message to the customer, even an alert could be fine

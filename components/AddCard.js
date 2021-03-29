@@ -148,4 +148,4 @@ const mapDispatchToProps = (dispatch, {navigation, route}) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddCard)
-//TODO WIP finish layout and feedback on card creation or not
+
