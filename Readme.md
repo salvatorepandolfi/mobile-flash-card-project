@@ -14,3 +14,9 @@ To get started developing right away:
 
 * install all project dependencies with `npm install`
 * start the development server with `npm start` or use `expo start`
+
+
+## Tested Environments
+Tested on:
+- Android 10 (Xiaomi Mi 9)
+- IOS 12.5.2 (iPad Mini 2)

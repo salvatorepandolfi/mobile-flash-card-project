@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import {Keyboard, Text, View, StyleSheet} from 'react-native'
+import {Platform,Keyboard,View,Text, KeyboardAvoidingView, StyleSheet} from 'react-native'
 import {connect} from "react-redux"
 import StyledTextInput from "./StyledTextInput"
 import StyledButton from "./StyledButton"
@@ -90,24 +90,27 @@ class AddCard extends Component {
     render() {
         const {question, answer, errors} = this.state
         return (
-            <View style={styles.container}>
-                <Text style={styles.title}>Insert a question and its answer:</Text>
-                <StyledTextInput
-                    value={question}
-                    error={errors.question}
-                    onChange={this.onChangeQuestion}
-                    placeholder='Question...'
-                    options={this.inputOption}
-                />
-                <StyledTextInput
-                    value={answer}
-                    error={errors.answer}
-                    onChange={this.onChangeAnswer}
-                    placeholder='Answer...'
-                    options={this.inputOption}
-                />
-                <StyledButton onPress={this.submit}>Submit</StyledButton>
-            </View>
+            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : null}
+                                  style={{ flex: 1 }}>
+                <View style={styles.container}>
+                    <Text style={styles.title}>Insert a question and its answer:</Text>
+                    <StyledTextInput
+                        value={question}
+                        error={errors.question}
+                        onChange={this.onChangeQuestion}
+                        placeholder='Question...'
+                        options={this.inputOption}
+                    />
+                    <StyledTextInput
+                        value={answer}
+                        error={errors.answer}
+                        onChange={this.onChangeAnswer}
+                        placeholder='Answer...'
+                        options={this.inputOption}
+                    />
+                    <StyledButton onPress={this.submit}>Submit</StyledButton>
+                </View>
+            </KeyboardAvoidingView>
         )
     }
 }
@@ -118,7 +121,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
         padding: 20
     },
-    title:{
+    title: {
         fontSize: 30
     }
 })

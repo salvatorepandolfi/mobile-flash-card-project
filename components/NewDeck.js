@@ -1,6 +1,6 @@
 import React, {Component} from "react"
 import {connect} from "react-redux"
-import {View, Text, TextInput, StyleSheet, Keyboard} from "react-native"
+import {View, Text, StyleSheet, Keyboard, Platform, KeyboardAvoidingView} from "react-native"
 import StyledButton from "./StyledButton"
 import StyledTextInput from './StyledTextInput'
 import {handleCreateDeck} from "../actions/decks"
@@ -31,17 +31,20 @@ class NewDeck extends Component {
     render() {
         const {title, error} = this.state
         return (
-            <View style={styles.container}>
-                <Text style={styles.header}>What is the title of the new deck?</Text>
-                <StyledTextInput
-                    value={title}
-                    error={error}
-                    onChange={this.onChange}
-                    placeholder='Deck Title'
-                    options={{maxLength: 50}}
-                />
-                <StyledButton onPress={this.addNewDeck}>SUBMIT</StyledButton>
-            </View>
+            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : null}
+                                  style={{flex: 1}}>
+                <View style={styles.container}>
+                    <Text style={styles.header}>What is the title of the new deck?</Text>
+                    <StyledTextInput
+                        value={title}
+                        error={error}
+                        onChange={this.onChange}
+                        placeholder='Deck Title'
+                        options={{maxLength: 50}}
+                    />
+                    <StyledButton onPress={this.addNewDeck}>SUBMIT</StyledButton>
+                </View>
+            </KeyboardAvoidingView>
         )
     }
 }

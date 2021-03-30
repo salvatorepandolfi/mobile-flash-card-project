@@ -7,9 +7,6 @@
     "description": "A Mobile Flash Card Application, for accademic purpose ;-)",
     "slug": "mobile-flash-card-project",
     "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
     "android": {
       "useNextNotificationsApi": true,
       "package": "org.pandolfiflash.exp"
